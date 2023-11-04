@@ -173,11 +173,11 @@ export function CommentBox(){
         runGPT(newCalendarData.calendar.id);
         runCounseling(newCalendarData.calendar.id);
 
-        //
+        //reactに動作の"前"と"今"のcountを明確にさせるための動作
         setCount(prevCount => {
             const newCount = (prevCount + 1) % 7;
             localStorage.setItem('count', JSON.stringify(newCount));
-            return newCount;
+            return newCount; //+1を保存したいもんねｗ
         });
         
         // const countString = localStorage.getItem('count');

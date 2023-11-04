@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useAtom } from 'jotai';
 import styles from './ShowModel.module.css'
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 export const ShowModel = () => {
     const [showModel] = useAtom(showModelAtom)
@@ -17,7 +18,7 @@ export const ShowModel = () => {
     //これでパス設定
     // const imagePath = `/icon/kyoryu${count}.png`;
     const imagePath = `/icon/egg${count}.png`;
-    
+
 
     return (
         <div className={styles.container}>
