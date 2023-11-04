@@ -16,22 +16,22 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement)
 
 export function Graph() {
     // const result: number[] = []
-    const [graphData] = useAtom(graphDataAtom);
+    const [graphData, setGraphData] = useAtom(graphDataAtom);
+
+    useEffect(() => {
+      // graphData が更新された後に実行される
+      setGraphData(graphData => {
+        // 新しい配列インスタンスを作成してソートする
+        const sortedData = [...graphData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        return sortedData;
+      });
+    }, [setGraphData]);
+
+
+
     const [result, setResult] = useState<number[]>([]);
-  //   const graphcheck = () => {
-  //       console.log("graphdata", graphData)
-        
-        
-  //       graphData.map((item) => {
-  //           result.push(item.emotionalValue);
-           
-        
-  //   })
-        
-  //   }
-  //   graphcheck()
-  // console.log("result", result)
-    
+    console.log(graphData)
+  
   useEffect(() => {
     const tempResult: number[] = [];
 
