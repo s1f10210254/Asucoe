@@ -1,23 +1,20 @@
 import { graphDataAtom } from "@/utils/jotai"
 import { useAtom } from "jotai";
 import React, { useEffect, useState} from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  ChartOptions,
-  ChartData,
-} from 'chart.js'
-import { Line } from 'react-chartjs-2'
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement)
+import { LineChart } from '@mui/x-charts/LineChart';
+import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
+import { IconButton } from "@mui/material";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+
 
 
 export function Graph() {
-    // const result: number[] = []
+    
     const [graphData, setGraphData] = useAtom(graphDataAtom);
-
+    
+    //昇順表示
     useEffect(() => {
       // graphData が更新された後に実行される
       setGraphData(graphData => {
@@ -28,67 +25,87 @@ export function Graph() {
     }, [setGraphData]);
 
 
+    
 
-    const [result, setResult] = useState<number[]>([]);
-    console.log(graphData)
-  
-  useEffect(() => {
+
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+  const [result, setResult] = useState<number[]>([]);
+  const [labels, setLabels] = useState<string[]>([]);
+  useEffect(()=>{
     const tempResult: number[] = [];
+    const tempLabels: string[] = []
 
-    //10月のデータだけ抽出
-    graphData.map((item) => {
-        const date = new Date(item.date); // item.dataをDateオブジェクトに変換
-        const month = date.getMonth(); // 月を取得
+    graphData.forEach((item)=>{
+      const date = new Date(item.date) ;
+      const month = date.getMonth();
 
-        if (month === 9) { // 10月のデータだけをチェック(9->10月)
-            tempResult.push(item.emotionalValue);
-        }
-        // console.log("tempresulta",tempResult)
-    });
-    console.log("tempresulta",tempResult)
+      if(month === currentMonth){
+        tempResult.push(item.emotionalValue);
+        tempLabels.push(`${date.getDate() + 1}日`);
+      }
+    })
 
     setResult(tempResult);
-}, [graphData]);
+    setLabels(tempLabels);
+  },[graphData, currentMonth])  
 
+  console.log("result",result)
+  console.log("labels",labels)
+
+  const handlePreviousMonth = () => {
+    setCurrentMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
+  };
   
-  
-  // dataオブジェクトをここで定義
-  const labels = Array.from({ length: result.length }, (_, i) => (i + 1).toString());
-  const data: ChartData<'line'> = {
-      labels,
-      datasets: [
-        {
-          data: result,
-          borderColor: '#91CAD3',
-                  
-        },
-            ],
-      };
+  const handleNextMonth = () => {
+    setCurrentMonth((prevMonth) => (prevMonth === 11 ? 0 : prevMonth + 1));
+  };
+
     
-      return <LineChart data={data} />;
-}
+    
 
-const options: ChartOptions<'line'> = {
-  responsive: true,
-  scales: {
-    // x: {
-    //   display: false // x軸のラベルを表示しない
-    // },
-    y: {
-      min: 1,       // y軸の最小値を1に設定
-      max: 5,       // y軸の最大値を5に設定
-      ticks: {
-        stepSize: 1  // 1刻みでラベルを表示
-      }
-    }
-  }
-};
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-function LineChart({ data }: { data: ChartData<'line'> }): JSX.Element {
-  return (
-    <div style={{ marginTop: '20px' }}>
-      <Line options={options} data={data}  width={500} height={420}/>
+  // ウィンドウサイズが変更されたときに実行されるイベントハンドラ
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  // コンポーネントがマウントされた時とアンマウントされた時にイベントリスナーを設定・解除
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    
+    // コンポーネントがアンマウントされるときのクリーンアップ関数
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+    return(
+      <div >
+        <div style={{display:"flex", justifyContent: "center", gap:"10vw"}}>
+          <IconButton onClick={handlePreviousMonth}>
+            <ArrowBackIcon/>
+          </IconButton>
+          <div><h2 style={{flexGrow: 1, fontSize: 20}}>{currentMonth + 1}月</h2></div>
+          <IconButton onClick={handleNextMonth}>
+            <ArrowForwardIcon/>
+          </IconButton>
+        </div>
+        {result.length > 0 && labels.length > 0 && (
+          <LineChart
+            // yAxis={[{data:[1,2,3,4,5]}]}
+            // xAxis={[{data:result}]}
+            series={[
+              { 
+                curve:"linear",
+                data:result,
+              },
+            ]}
+            width={windowWidth}
+            height={300}
+          />
+        )}
       </div>
-    
-  )
-}
+    )
+  }
+  
