@@ -9,6 +9,5 @@
 .kyoryu{
     display: flex;
     justify-content: center;
-    padding-top: 35vh;
-   
+    /* padding-top: 35vh; */
 }
