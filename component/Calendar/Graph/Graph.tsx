@@ -30,10 +30,10 @@ export function Graph() {
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [result, setResult] = useState<number[]>([]);
-  const [labels, setLabels] = useState<string[]>([]);
+  const [labels, setLabels] = useState<number[]>([]);
   useEffect(()=>{
     const tempResult: number[] = [];
-    const tempLabels: string[] = []
+    const tempLabels: number[] = []
 
     graphData.forEach((item)=>{
       const date = new Date(item.date) ;
@@ -41,7 +41,7 @@ export function Graph() {
 
       if(month === currentMonth){
         tempResult.push(item.emotionalValue);
-        tempLabels.push(`${date.getDate() + 1}日`);
+        tempLabels.push(date.getDate() );
       }
     })
 
@@ -49,7 +49,7 @@ export function Graph() {
     setLabels(tempLabels);
   },[graphData, currentMonth])  
 
-  console.log("result",result)
+  // console.log("result",result)
   console.log("labels",labels)
 
   const handlePreviousMonth = () => {
@@ -93,14 +93,14 @@ export function Graph() {
         </div>
         {result.length > 0 && labels.length > 0 && (
           <LineChart
-            // yAxis={[{data:[1,2,3,4,5]}]}
-            // xAxis={[{data:result}]}
+          xAxis={[{data:labels}]}
             series={[
               { 
                 curve:"linear",
                 data:result,
               },
             ]}
+            
             width={windowWidth}
             height={300}
           />
