@@ -26,7 +26,7 @@ export const UserAtom = atom({
     profession: "",
 });
 
-export const countAtom = atom<number>(0);
+export const countAtom = atom<number>(5);
 
 export const emotionalSixListAtom = atom<number[] | null>(null)
 export const emotionalSevenTotalAtom = atom<number>(0);
