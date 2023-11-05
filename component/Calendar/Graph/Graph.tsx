@@ -25,17 +25,26 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement)
 export function Graph() {
     
     const [graphData, setGraphData] = useAtom(graphDataAtom);
+
+    // const [sortedGraphData, setSortedGraphData] = useState([]);
     
     //昇順表示
-    useEffect(() => {
-      // graphData が更新された後に実行される
-      setGraphData(graphData => {
-        // 新しい配列インスタンスを作成してソートする
-        const sortedData = [...graphData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-        return sortedData;
-      });
-    }, [setGraphData]);
+    // useEffect(() => {
+    //   // graphData が更新された後に実行される
+    //   setGraphData(graphData => {
+    //     // 新しい配列インスタンスを作成してソートする
+    //     const sortedData = [...graphData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    //     return sortedData;
+    //   });
+    //   // const sortedData = [...graphData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    //   // setSortedGraphData(sortedData);
 
+    // }, [setGraphData]);
+    const [sortedGraphData, setSortedGraphData] = useState<{date:string, emotionalValue: number }[]>([]);
+
+    useEffect(() => {
+      setSortedGraphData([...graphData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()));
+    }, [graphData]);
 
     
 
@@ -47,7 +56,7 @@ export function Graph() {
     const tempResult: number[] = [];
     const tempLabels: number[] = []
 
-    graphData.forEach((item)=>{
+    sortedGraphData.forEach((item)=>{
       const date = new Date(item.date) ;
       const month = date.getMonth();
 
@@ -59,7 +68,7 @@ export function Graph() {
 
     setResult(tempResult);
     // setLabels(tempLabels);
-  },[graphData, currentMonth])  
+  },[sortedGraphData, currentMonth])  
 
 
   const labels = result.map((_, index) => `${index + 1}`);
