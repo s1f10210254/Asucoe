@@ -18,7 +18,7 @@ export default function Home(){
       const timer = setTimeout(()=>{
           setIsLoading(false);
           setHasLoadedOnce(true)
-      }, 10000);
+      }, 2000);
 
       return ()=>{
           clearTimeout(timer);
@@ -119,11 +119,11 @@ export default function Home(){
               <TopBar />
               <Main />
               {/* <CommentBox />   */}
-              {commentBoxShow && (
+              {/* {commentBoxShow && (
                 <div>
                   <CommentBox />
                 </div>        
-              )}
+              )} */}
             
             </div>
           )}
