@@ -21,17 +21,17 @@ export const ShowModel = () => {
     useEffect(() => {
         if (count === 0) {
             // 一時的にegg6を表示
-            console.log('count is currently 0, setting to 6');
+            // console.log('count is currently 0, setting to 6');
             setCount(6);
 
             // 1秒後にegg0を表示
             const timerId = setTimeout(() => {
-                console.log('Setting count to 0 after timeout');
+                // console.log('Setting count to 0 after timeout');
                 setCount(0);
             }, 2000);
 
             return () => {
-                console.log('Clearing timeout');
+                // console.log('Clearing timeout');
                 clearTimeout(timerId)
             }
 

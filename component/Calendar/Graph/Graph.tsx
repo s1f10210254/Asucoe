@@ -50,7 +50,7 @@ export function Graph() {
   },[graphData, currentMonth])  
 
   // console.log("result",result)
-  console.log("labels",labels)
+  // console.log("labels",labels)
 
   const handlePreviousMonth = () => {
     setCurrentMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
