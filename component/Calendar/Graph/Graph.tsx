@@ -1,7 +1,7 @@
 import { graphDataAtom } from "@/utils/jotai"
 import { useAtom } from "jotai";
 import React, { useEffect, useState} from "react";
-import { LineChart } from '@mui/x-charts/LineChart';
+// import { LineChart } from '@mui/x-charts/LineChart';
 import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
 import { IconButton } from "@mui/material";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -91,7 +91,7 @@ export function Graph() {
             <ArrowForwardIcon/>
           </IconButton>
         </div>
-        {result.length > 0 && labels.length > 0 && (
+        {/* {result.length > 0 && labels.length > 0 && (
           <LineChart
           xAxis={[{data:labels}]}
             series={[
@@ -104,7 +104,7 @@ export function Graph() {
             width={windowWidth}
             height={300}
           />
-        )}
+        )} */}
       </div>
     )
   }
