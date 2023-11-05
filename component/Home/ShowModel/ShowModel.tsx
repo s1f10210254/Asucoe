@@ -50,7 +50,7 @@ export const ShowModel = () => {
         <div className={styles.container}>
             <div className={styles.kyoryu} >
             {/* <Image src={imagePath} width={1550} height={1550} alt={`kyoryu ${count}`} /> */}
-            <Image key={imagePath} src={imagePath} width={500} height={500} alt={`egg ${count}`} />
+            {/* <Image key={imagePath} src={imagePath} width={500} height={500} alt={`egg ${count}`} /> */}
 
             </div>
         </div>
