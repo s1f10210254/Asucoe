@@ -139,7 +139,7 @@ export function Graph() {
 
     return(
       <div >
-        <div style={{display:"flex", justifyContent: "center", gap:"10vw"}}>
+        <div style={{display:"flex", justifyContent: "center", gap:"10vw",paddingBottom:"50px"}}>
           <IconButton onClick={handlePreviousMonth}>
             <ArrowBackIcon/>
           </IconButton>
@@ -148,7 +148,9 @@ export function Graph() {
             <ArrowForwardIcon/>
           </IconButton>
         </div>
-        <Line options={options} data={data} width={windowWidth}/>
+        
+          <Line options={options} data={data} width={windowWidth}/>
+        
         {/* {result.length > 0 && labels.length > 0 && (
           <LineChart
           xAxis={[{data:labels}]}
