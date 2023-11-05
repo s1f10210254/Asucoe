@@ -190,13 +190,13 @@ export function CommentBox(){
     }, [setCount]);
 
       // コンポーネントがマウントされた時にlocalStorageから値を読み込む
-    // useEffect(() => {
-    //     const storedIsActive = localStorage.getItem('commentBoxShow');
-    //     console.log("読み込みされた値", storedIsActive);
-    //     if (storedIsActive) {
-    //     setCommentBoxShow(storedIsActive === 'true');
-    //     }
-    // }, [setCommentBoxShow]);
+    useEffect(() => {
+        const storedIsActive = localStorage.getItem('commentBoxShow');
+        console.log("読み込みされた値", storedIsActive);
+        if (storedIsActive) {
+        setCommentBoxShow(storedIsActive === 'true');
+        }
+    }, [setCommentBoxShow]);
 
     return (
         <div className={styles.container}>
