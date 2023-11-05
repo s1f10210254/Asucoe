@@ -2,12 +2,24 @@ import { graphDataAtom } from "@/utils/jotai"
 import { useAtom } from "jotai";
 import React, { useEffect, useState} from "react";
 // import { LineChart } from '@mui/x-charts/LineChart';
-import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
-import { IconButton } from "@mui/material";
+// import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
+// import { IconButton } from "@mui/material";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+// import { LineChart } from "@mui/x-charts";
 
-
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ChartOptions,
+  ChartData,
+} from 'chart.js'
+import { Line } from 'react-chartjs-2'
+import { IconButton } from "@mui/material";
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement)
 
 
 export function Graph() {
@@ -30,7 +42,7 @@ export function Graph() {
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [result, setResult] = useState<number[]>([]);
-  const [labels, setLabels] = useState<number[]>([]);
+  // const [labels, setLabels] = useState<number[]>([]);
   useEffect(()=>{
     const tempResult: number[] = [];
     const tempLabels: number[] = []
@@ -46,11 +58,47 @@ export function Graph() {
     })
 
     setResult(tempResult);
-    setLabels(tempLabels);
+    // setLabels(tempLabels);
   },[graphData, currentMonth])  
 
-  // console.log("result",result)
-  // console.log("labels",labels)
+
+  const labels = result.map((_, index) => `${index + 1}`);
+
+
+  const data: ChartData<'line'> = {
+    labels,
+    datasets: [
+      {
+        label: '感情値',
+        data: result,
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+      },
+    ],
+  };
+
+  const options: ChartOptions<'line'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+    },
+    scales: {
+      y: {
+        min: 1,
+        beginAtZero: true,
+        ticks:{
+          stepSize:1,
+          
+          
+        }
+      },
+    },
+  };
+
+  // // console.log("result",result)
+  // // console.log("labels",labels)
 
   const handlePreviousMonth = () => {
     setCurrentMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
@@ -63,7 +111,7 @@ export function Graph() {
     
     
 
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // ウィンドウサイズが変更されたときに実行されるイベントハンドラ
   const handleResize = () => {
@@ -91,6 +139,7 @@ export function Graph() {
             <ArrowForwardIcon/>
           </IconButton>
         </div>
+        <Line options={options} data={data} width={windowWidth}/>
         {/* {result.length > 0 && labels.length > 0 && (
           <LineChart
           xAxis={[{data:labels}]}
