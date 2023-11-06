@@ -119,11 +119,11 @@ export default function Home(){
               <TopBar />
               <Main />
               {/* <CommentBox />   */}
-              {/* {commentBoxShow && (
+              {commentBoxShow && (
                 <div>
                   <CommentBox />
                 </div>        
-              )} */}
+              )}
             
             </div>
           )}
