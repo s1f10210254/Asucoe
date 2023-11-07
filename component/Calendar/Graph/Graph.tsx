@@ -50,25 +50,48 @@ export function Graph() {
 
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [result, setResult] = useState<number[]>([]);
+  const [result, setResult] = useState<(number | null)[]>([]);
   // const [labels, setLabels] = useState<number[]>([]);
-  useEffect(()=>{
-    const tempResult: number[] = [];
-    const tempLabels: number[] = []
+  // useEffect(()=>{
+  //   const tempResult: number[] = [];
+  //   const tempLabels: number[] = []
 
-    sortedGraphData.forEach((item)=>{
-      const date = new Date(item.date) ;
+  //   sortedGraphData.forEach((item)=>{
+  //     const date = new Date(item.date) ;
+  //     const month = date.getMonth();
+
+  //     if(month === currentMonth){
+  //       tempResult.push(item.emotionalValue);
+  //       tempLabels.push(date.getDate() );
+  //     }
+  //   })
+
+  //   setResult(tempResult);
+  //   // setLabels(tempLabels);
+  // },[sortedGraphData, currentMonth])  
+  useEffect(() => {
+    const daysInMonth = new Date(new Date().getFullYear(), currentMonth + 1,0).getDate();
+
+    const newResult = new Array(daysInMonth).fill(null);
+
+    sortedGraphData.forEach((item) => {
+      const date = new Date(item.date);
       const month = date.getMonth();
-
-      if(month === currentMonth){
-        tempResult.push(item.emotionalValue);
-        tempLabels.push(date.getDate() );
+      const day = date.getDate() - 1; // 配列は0から始まるので、1を引く
+  
+      if (month === currentMonth) {
+        newResult[day] = item.emotionalValue; // 日にちに応じた位置に感情値を設定
       }
-    })
+    });
+  
+  
+    setResult(newResult);
+    
+  }, [sortedGraphData, currentMonth]);
 
-    setResult(tempResult);
-    // setLabels(tempLabels);
-  },[sortedGraphData, currentMonth])  
+  console.log("sorted",sortedGraphData)
+  console.log("result", result)
+  
 
 
   const labels = result.map((_, index) => `${index + 1}`);
@@ -82,6 +105,7 @@ export function Graph() {
         data: result,
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        spanGaps: true
       },
     ],
   };
@@ -151,20 +175,6 @@ export function Graph() {
         
           <Line options={options} data={data} width={windowWidth}/>
         
-        {/* {result.length > 0 && labels.length > 0 && (
-          <LineChart
-          xAxis={[{data:labels}]}
-            series={[
-              { 
-                curve:"linear",
-                data:result,
-              },
-            ]}
-            
-            width={windowWidth}
-            height={300}
-          />
-        )} */}
       </div>
     )
   }
