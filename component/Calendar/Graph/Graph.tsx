@@ -26,20 +26,6 @@ export function Graph() {
     
     const [graphData, setGraphData] = useAtom(graphDataAtom);
 
-    // const [sortedGraphData, setSortedGraphData] = useState([]);
-    
-    //昇順表示
-    // useEffect(() => {
-    //   // graphData が更新された後に実行される
-    //   setGraphData(graphData => {
-    //     // 新しい配列インスタンスを作成してソートする
-    //     const sortedData = [...graphData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    //     return sortedData;
-    //   });
-    //   // const sortedData = [...graphData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    //   // setSortedGraphData(sortedData);
-
-    // }, [setGraphData]);
     const [sortedGraphData, setSortedGraphData] = useState<{date:string, emotionalValue: number }[]>([]);
 
     useEffect(() => {
@@ -51,24 +37,7 @@ export function Graph() {
 
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [result, setResult] = useState<(number | null)[]>([]);
-  // const [labels, setLabels] = useState<number[]>([]);
-  // useEffect(()=>{
-  //   const tempResult: number[] = [];
-  //   const tempLabels: number[] = []
-
-  //   sortedGraphData.forEach((item)=>{
-  //     const date = new Date(item.date) ;
-  //     const month = date.getMonth();
-
-  //     if(month === currentMonth){
-  //       tempResult.push(item.emotionalValue);
-  //       tempLabels.push(date.getDate() );
-  //     }
-  //   })
-
-  //   setResult(tempResult);
-  //   // setLabels(tempLabels);
-  // },[sortedGraphData, currentMonth])  
+ 
   useEffect(() => {
     const daysInMonth = new Date(new Date().getFullYear(), currentMonth + 1,0).getDate();
 
@@ -89,8 +58,7 @@ export function Graph() {
     
   }, [sortedGraphData, currentMonth]);
 
-  console.log("sorted",sortedGraphData)
-  console.log("result", result)
+ 
   
 
 
@@ -105,33 +73,52 @@ export function Graph() {
         data: result,
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
-        spanGaps: true
+        // borderWidth: 3,
+        // pointRadius: 5,
+        // pointBorderColor: 'blue',
+        spanGaps: true,
       },
     ],
   };
 
   const options: ChartOptions<'line'> = {
     responsive: true,
+    // maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top',
       },
     },
     scales: {
-      y: {
-        min: 1,
-        beginAtZero: true,
-        ticks:{
-          stepSize:1,
+          x: {
+            // title: {
+            //   display: true,
+            //   text: '日', // X軸のタイトル
+            //   color: '#666', // タイトルの色
+            // },
+            ticks:{
+              autoSkip:true,
+              
+            }
           
-          
-        }
-      },
-    },
+          },
+          y: {
+            min: 0,
+            beginAtZero: true,
+            // title: {
+            //   display: true,
+            //   text: '感情の数値', // Y軸のタイトル
+            //   color: '#666', // タイトルの色
+            
+            // },
+            ticks: {
+              stepSize: 1,
+            },
+          },
+        },
   };
 
-  // // console.log("result",result)
-  // // console.log("labels",labels)
+
 
   const handlePreviousMonth = () => {
     setCurrentMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
@@ -173,7 +160,7 @@ export function Graph() {
           </IconButton>
         </div>
         
-          <Line options={options} data={data} width={windowWidth}/>
+          <Line options={options} data={data} width={windowWidth }/>
         
       </div>
     )
