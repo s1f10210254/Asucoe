@@ -196,8 +196,7 @@ export function CommentBox(){
         setCount(prevCount => {
             const newCount = (prevCount + 1) % 7;
             localStorage.setItem('count', JSON.stringify(newCount));
-            // updateCountAndSaveToDB(newCount)
-            return newCount;
+            return newCount
         });
         
         
