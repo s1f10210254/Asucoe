@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 export default async function postDB_message_calendar(req: NextApiRequest, res: NextApiResponse) {
     if(req.method === "POST"){
-        const { date, content, timestamp } = req.body as {date: string; content: string; timestamp: string };
+        const { date, content, timestamp} = req.body as {date: string; content: string; timestamp: string };
         
         const calendar = await prisma.calendar.create({
             data: {
