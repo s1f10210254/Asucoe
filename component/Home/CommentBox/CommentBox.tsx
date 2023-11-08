@@ -144,11 +144,6 @@ export function CommentBox(){
         
     }
 
-    const sendIconVariants = {
-        initial: { x: 0, y: 0 },
-        animate: { x: 100, y: -100, opacity: 0, transition: { duration: 0.5 } }
-    };
-
     const [count, setCount] = useAtom(countAtom);
     
     const run = async()=>{
