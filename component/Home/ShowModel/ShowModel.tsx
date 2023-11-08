@@ -44,7 +44,7 @@ export const ShowModel = () => {
     
 
     const imagePath = `/icon/egg${count}.png`;
-    
+
 
     return (
         <div className={styles.container}>
