@@ -9,6 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import React from "react";
 import { motion } from "framer-motion";
 import { stringify } from "querystring";
+import { json } from "stream/consumers";
 
 export function CommentBox(){
 
@@ -116,9 +117,9 @@ export function CommentBox(){
         if(messageContent === "") return;
         const GPTScoringValue:number = await scoringGPT(messageContent);
         
-        console.log("GPTScoringVaule",GPTScoringValue);
+        // console.log("GPTScoringVaule",GPTScoringValue);
 
-        console.log("calendarId", calendarId)
+        // console.log("calendarId", calendarId)
 
         if(emotionalSixList !== null){
             const totalEmotionalValue = emotionalSixList.reduce((accumulator, curretValue) => accumulator + curretValue, 0) + GPTScoringValue
@@ -144,8 +145,26 @@ export function CommentBox(){
         
     }
 
+    // const saveGlobalStateToDB = async (key:string, value: number | boolean)=>{
+    //     const response = await fetch(`${baseURL}/api/saveGlobalStateDBAPI`,{
+    //         method:"POST",
+    //         headers:{
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ key, value})
+    //     });
+    //     const data = response.json();
+    //     return data;
+    // }
+
     const [count, setCount] = useAtom(countAtom);
-    
+
+    // const updateCountAndSaveToDB = async (newCount: number) => {
+    //     // データベース状態の更新
+    //     await saveGlobalStateToDB('count', newCount);
+    //     // ステートの更新
+    //     setCount(newCount);
+    // };
     const run = async()=>{
         if(messageContent === "") return;
         const nowString = getCurrentTimestamp();
@@ -154,6 +173,7 @@ export function CommentBox(){
             date:now,
             content:messageContent,
             timestamp: nowString,
+
         }
         const newCalendarData = await addContent(addObject)
         const MessageObject = newCalendarData.message
@@ -165,6 +185,10 @@ export function CommentBox(){
         setShowModel(true);
         localStorage.setItem('commentBoxShow', "false");
         console.log("保存された値",commentBoxShow)
+
+        // await saveGlobalStateToDB('commentBoxShow', false);
+        
+
         runGPT(newCalendarData.calendar.id);
         runCounseling(newCalendarData.calendar.id);
 
@@ -172,11 +196,14 @@ export function CommentBox(){
         setCount(prevCount => {
             const newCount = (prevCount + 1) % 7;
             localStorage.setItem('count', JSON.stringify(newCount));
+            // updateCountAndSaveToDB(newCount)
             return newCount;
         });
         
         
     }
+
+    
     useEffect(() => {
         const countString = localStorage.getItem('count');
         const savedCount = (countString !== null) ? JSON.parse(countString) : null;
