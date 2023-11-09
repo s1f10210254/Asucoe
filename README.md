@@ -12,6 +12,7 @@
 
 ![hogehoge!!!!!!!!! (7)](https://github.com/s1f10210254/Asucoe/assets/85672296/168867c8-0511-4ec7-b27e-7f70d773d119)
 
+///////////////////////////////////////////////////////////////////
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
