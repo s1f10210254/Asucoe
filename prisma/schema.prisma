@@ -35,7 +35,7 @@ model User {
 }
 
 model GlobalState {
-  id    Int    @id @default(autoincrement())
-  key   String @unique
-  value String
+  id        Int     @id @default(autoincrement())
+  count     Int?    
+  commentBoxShow Boolean? @default(true)
 }

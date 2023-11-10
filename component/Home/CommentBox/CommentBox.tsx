@@ -145,26 +145,22 @@ export function CommentBox(){
         
     }
 
-    // const saveGlobalStateToDB = async (key:string, value: number | boolean)=>{
-    //     const response = await fetch(`${baseURL}/api/saveGlobalStateDBAPI`,{
-    //         method:"POST",
-    //         headers:{
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ key, value})
-    //     });
-    //     const data = response.json();
-    //     return data;
-    // }
+    const updateGlobalState = async (count: number, showModel:boolean)=>{
+        const response = await fetch(`${baseURL}/api/updateGlobalState`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ count, showModel}),
+        });
+        if(!response.ok){
+            console.error('Failed to update global state');
+        }
+    }
 
     const [count, setCount] = useAtom(countAtom);
 
-    // const updateCountAndSaveToDB = async (newCount: number) => {
-    //     // データベース状態の更新
-    //     await saveGlobalStateToDB('count', newCount);
-    //     // ステートの更新
-    //     setCount(newCount);
-    // };
+   
     const run = async()=>{
         if(messageContent === "") return;
         const nowString = getCurrentTimestamp();
@@ -173,7 +169,6 @@ export function CommentBox(){
             date:now,
             content:messageContent,
             timestamp: nowString,
-
         }
         const newCalendarData = await addContent(addObject)
         const MessageObject = newCalendarData.message
@@ -182,42 +177,51 @@ export function CommentBox(){
         
 
         setCommentBoxShow(false);
-        setShowModel(true);
-        localStorage.setItem('commentBoxShow', "false");
-        console.log("保存された値",commentBoxShow)
-
-        // await saveGlobalStateToDB('commentBoxShow', false);
-        
-
-        runGPT(newCalendarData.calendar.id);
-        runCounseling(newCalendarData.calendar.id);
-
         //reactに動作の"前"と"今"のcountを明確にさせるための動作
         setCount(prevCount => {
             const newCount = (prevCount + 1) % 7;
-            localStorage.setItem('count', JSON.stringify(newCount));
-            return newCount //+1を保存したいもんねｗ
+            // localStorage.setItem('count', JSON.stringify(newCount));
+            return newCount //+1を保存したいもんね
         });
-        
-        
+
+        await updateGlobalState((count + 1) % 7, false)
+        setShowModel(true);
+
+        runGPT(newCalendarData.calendar.id);
+        runCounseling(newCalendarData.calendar.id);      
     }
 
+    useEffect(() => {
+        const fetchGlobalState = async () => {
+            const response = await fetch(`${baseURL}/api/getGlobalState`);
+            if (response.ok) {
+                const data = await response.json();
+                setCount(data.count);
+                setCommentBoxShow(data.showModel);
+            } else {
+                console.error('Failed to fetch global state');
+            }
+        };
     
-    useEffect(() => {
-        const countString = localStorage.getItem('count');
-        const savedCount = (countString !== null) ? JSON.parse(countString) : null;
+        fetchGlobalState();
+    }, [setCount, setCommentBoxShow]);
+    
+    
+    // useEffect(() => {
+    //     const countString = localStorage.getItem('count');
+    //     const savedCount = (countString !== null) ? JSON.parse(countString) : null;
 
-        setCount(savedCount);
-    }, [setCount]);
+    //     setCount(savedCount);
+    // }, [setCount]);
 
-      // コンポーネントがマウントされた時にlocalStorageから値を読み込む
-    useEffect(() => {
-        const storedIsActive = localStorage.getItem('commentBoxShow');
-        console.log("読み込みされた値", storedIsActive);
-        if (storedIsActive) {
-        setCommentBoxShow(storedIsActive === 'true');
-        }
-    }, [setCommentBoxShow]);
+    //   // コンポーネントがマウントされた時にlocalStorageから値を読み込む
+    // useEffect(() => {
+    //     const storedIsActive = localStorage.getItem('commentBoxShow');
+    //     console.log("読み込みされた値", storedIsActive);
+    //     if (storedIsActive) {
+    //     setCommentBoxShow(storedIsActive === 'true');
+    //     }
+    // }, [setCommentBoxShow]);
 
     return (
         <div className={styles.container}>
