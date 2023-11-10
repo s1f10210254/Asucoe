@@ -1,10 +1,4 @@
-![hogehoge!!!!!!!!!](https://github.com/s1f10210254/Asucoe/assets/85672296/b70c73bf-bcbe-4b7e-8810-5e413c5f474d)
-
-![hogehoge!!!!!!!!! (1)](https://github.com/s1f10210254/Asucoe/assets/85672296/eca8a431-69f3-4b32-92d5-71a139dff7aa)
-
 ![hogehoge!!!!!!!!! (3)](https://github.com/s1f10210254/Asucoe/assets/85672296/3377f440-47c9-4230-8cbe-56e35f12750c)
-
-![hogehoge!!!!!!!!! (4)](https://github.com/s1f10210254/Asucoe/assets/85672296/624b8f9a-39a7-4ad8-8dc0-1a6924910c9e)
 
 ![hogehoge!!!!!!!!! (5)](https://github.com/s1f10210254/Asucoe/assets/85672296/eef31497-5c31-48fb-8b57-a4f0b042c5e4)
 
