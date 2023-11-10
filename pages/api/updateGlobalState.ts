@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export default async function updateGlobalState(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
-        const { count, showModel } = req.body;
+        const { count, commentBoxShow } = req.body;
         let updatedState;
 
         // カウント値またはショーモデル値を更新
@@ -14,13 +14,13 @@ export default async function updateGlobalState(req: NextApiRequest, res: NextAp
             updatedState = await prisma.globalState.upsert({
                 where: { id: 1 }, 
                 update: { count },
-                create: { count, showModel: false } // 新しいレコード作成時のデフォルト値
+                create: { count, commentBoxShow: false } // 新しいレコード作成時のデフォルト値
             });
-        } else if (showModel !== undefined) {
+        } else if ( commentBoxShow!== undefined) {
             updatedState = await prisma.globalState.upsert({
                 where: { id: 1 },
-                update: { showModel },
-                create: { count: 0, showModel } // 新しいレコード作成時のデフォルト値
+                update: { commentBoxShow },
+                create: { count: 0, commentBoxShow } // 新しいレコード作成時のデフォルト値
             });
         } else {
             return res.status(400).json({ error: "Invalid data" });

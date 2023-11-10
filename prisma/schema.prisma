@@ -37,5 +37,5 @@ model User {
 model GlobalState {
   id        Int     @id @default(autoincrement())
   count     Int?    
-  showModel Boolean? @default(true)
+  commentBoxShow Boolean? @default(true)
 }
