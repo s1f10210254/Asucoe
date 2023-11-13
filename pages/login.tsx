@@ -18,25 +18,25 @@ const Login = () => {
         setIsGuest(true);
     };
 
-    useEffect(() => {
-        if (!supabase) return;
+    // useEffect(() => {
+    //     if (!supabase) return;
 
-        // 現在のセッション情報を取得
-        const currentSession = supabase.auth.session();
-        setUser(currentSession?.user ?? null);
-        setIsGuest(!currentSession);
+    //     // 現在のセッション情報を取得
+    //     const currentSession = supabase.auth.session();
+    //     setUser(currentSession?.user ?? null);
+    //     setIsGuest(!currentSession);
 
-        // 認証状態の変更をリッスン
-        const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
-            setIsGuest(!session);
-        });
+    //     // 認証状態の変更をリッスン
+    //     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+    //         setUser(session?.user ?? null);
+    //         setIsGuest(!session);
+    //     });
 
-        // コンポーネントのアンマウント時にリスナーを削除
-        return () => {
-            authListener?.unsubscribe();
-        };
-    }, []);
+    //     // コンポーネントのアンマウント時にリスナーを削除
+    //     return () => {
+    //         authListener?.unsubscribe();
+    //     };
+    // }, []);
 
     return (
         <div>

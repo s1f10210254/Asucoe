@@ -10,14 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Authentication {
-  id              Int             @id @default(autoincrement())
-  isGuest Boolean @default(false)
-  users           User[]
-  messages        Message[]
-  calendars       Calendar[]
-  globalStates    GlobalState[]
-}
+// model Authentication {
+//   id              Int             @id @default(autoincrement())
+//   isGuest Boolean @default(false)
+//   users           User[]
+//   messages        Message[]
+//   calendars       Calendar[]
+//   globalStates    GlobalState[]
+// }
 
 model User {
   id            Int    @id @default(autoincrement())
@@ -25,8 +25,8 @@ model User {
   gender        String @default("")
   age           String @default("")
   profession    String @default("")
-  authenticationId Int
-  authentication  Authentication  @relation(fields: [authenticationId], references: [id])
+  // authenticationId Int
+  // authentication  Authentication  @relation(fields: [authenticationId], references: [id])
 }
 
 model Message {
@@ -34,22 +34,26 @@ model Message {
   content         String
   timestamp       String
   counseling      String?         @default("")
-  authenticationId Int
-  authentication  Authentication  @relation(fields: [authenticationId], references: [id])
+  // authenticationId Int
+  // authentication  Authentication  @relation(fields: [authenticationId], references: [id])
+  calendar    Calendar  @relation(fields: [calendarId], references: [id])
+  calendarId  Int       @unique
 }
 
 model Calendar {
   id              Int             @id @default(autoincrement())
   date            DateTime
   emotionalValue  Int
-  authenticationId Int
-  authentication  Authentication  @relation(fields: [authenticationId], references: [id])
+  
+  // authenticationId Int
+  // authentication  Authentication  @relation(fields: [authenticationId], references: [id])
+  message         Message? 
 }
 
 model GlobalState {
   id              Int             @id @default(autoincrement())
-  count           Int?    
+  count           Int?      
   commentBoxShow  Boolean?        @default(true)
-  authenticationId Int
-  authentication  Authentication  @relation(fields: [authenticationId], references: [id])
+  // authenticationId Int
+  // authentication  Authentication  @relation(fields: [authenticationId], references: [id])
 }
