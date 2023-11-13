@@ -4,7 +4,7 @@
 
 ![hogehoge!!!!!!!!! (6)](https://github.com/s1f10210254/Asucoe/assets/85672296/e7d342d1-16f4-494a-8f23-2cf8d79c9807)
 
-![hogehoge!!!!!!!!! (7)](https://github.com/s1f10210254/Asucoe/assets/85672296/168867c8-0511-4ec7-b27e-7f70d773d119)
+![hogehoge!!!!!!!!!](https://github.com/s1f10210254/Asucoe/assets/85672296/b23da0b7-e3f0-49e5-8907-de9cbf3d8378)
 
 ///////////////////////////////////////////////////////////////////
 
