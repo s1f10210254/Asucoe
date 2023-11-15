@@ -93,9 +93,7 @@ export default function Home(){
       }
     },[setCommentBoxShow,setCurrentDateTime,currentDateTime, TimeData])
 
-    // console.log(TimeData)
-    // console.log(currentDateTime)
-    // console.log(commentBoxShow)
+    
 
     //Userの基本情報をDBから取得
     const [user, setUser] = useAtom(UserAtom)
