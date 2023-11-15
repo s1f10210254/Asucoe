@@ -30,6 +30,8 @@ export default function Home(){
 
     const [showModel, setShowModel] = useAtom(showModelAtom);
     const [commentBoxShow, setCommentBoxShow] = useAtom(commentBoxShowAtom);
+    // console.log("aa ",commentBoxShowAtom)
+    // console.log("bb",commentBoxShow)
     useEffect(() => {
       if (showModel) {
           const timer = setTimeout(() => {
@@ -56,13 +58,30 @@ export default function Home(){
 
     //設定時刻
     const [TimeData] = useAtom(TimeDataAtom)
+
+    const updateGlobalState = async (showModel:boolean)=>{
+      const response = await fetch(`${baseURL}/api/updateGlobalState`,{
+          method: 'POST',
+          headers:{
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({showModel}),
+      });
+      if(!response.ok){
+          console.error('Failed to update global state');
+      }
+  }
     useEffect(()=>{
       // setCurrentDateTime(getCurrentTimestamp());
     
-      const intervalId = setInterval(() => {
+      const intervalId = setInterval(async() => {
         const date = getDate();
         setCurrentDateTime(date);
         if (currentDateTime >= TimeData){
+          console.log("a")
+          // await updateGlobalState(true);
+          
+          
           setCommentBoxShow(true)
         }
       }, 60 * 1000);
@@ -72,7 +91,9 @@ export default function Home(){
       }
     },[setCommentBoxShow,setCurrentDateTime,currentDateTime, TimeData])
 
-
+    // console.log(TimeData)
+    // console.log(currentDateTime)
+    // console.log(commentBoxShow)
 
     //Userの基本情報をDBから取得
     const [user, setUser] = useAtom(UserAtom)
