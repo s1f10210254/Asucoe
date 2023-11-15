@@ -185,6 +185,7 @@ export function CommentBox(){
         });
 
         await updateGlobalState((count + 1) % 7, false)
+
         setShowModel(true);
 
         runGPT(newCalendarData.calendar.id);
@@ -197,7 +198,7 @@ export function CommentBox(){
             if (response.ok) {
                 const data = await response.json();
                 setCount(data.count);
-                setCommentBoxShow(data.showModel);
+                setCommentBoxShow(data.comentBoxShow);
             } else {
                 console.error('Failed to fetch global state');
             }
@@ -206,22 +207,7 @@ export function CommentBox(){
         fetchGlobalState();
     }, [setCount, setCommentBoxShow]);
     
-    
-    // useEffect(() => {
-    //     const countString = localStorage.getItem('count');
-    //     const savedCount = (countString !== null) ? JSON.parse(countString) : null;
 
-    //     setCount(savedCount);
-    // }, [setCount]);
-
-    //   // コンポーネントがマウントされた時にlocalStorageから値を読み込む
-    // useEffect(() => {
-    //     const storedIsActive = localStorage.getItem('commentBoxShow');
-    //     console.log("読み込みされた値", storedIsActive);
-    //     if (storedIsActive) {
-    //     setCommentBoxShow(storedIsActive === 'true');
-    //     }
-    // }, [setCommentBoxShow]);
 
     return (
         <div className={styles.container}>
