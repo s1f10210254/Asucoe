@@ -59,31 +59,33 @@ export default function Home(){
     //設定時刻
     const [TimeData] = useAtom(TimeDataAtom)
 
-    const updateGlobalState = async (showModel:boolean)=>{
+    const updateGlobalState = async (commentBoxShow:boolean)=>{
       const response = await fetch(`${baseURL}/api/updateGlobalState`,{
           method: 'POST',
           headers:{
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({showModel}),
+          body: JSON.stringify({commentBoxShow}),
       });
       if(!response.ok){
           console.error('Failed to update global state');
       }
-  }
+    }
     useEffect(()=>{
-      // setCurrentDateTime(getCurrentTimestamp());
-    
-      const intervalId = setInterval(async() => {
+      const updateState = async () => {
+        if (currentDateTime >= TimeData) {
+            console.log("a");
+            await updateGlobalState(true);
+            console.log("b");
+
+            setCommentBoxShow(true);
+        } 
+      };
+      updateState()
+      const intervalId = setInterval(() => {
         const date = getDate();
         setCurrentDateTime(date);
-        if (currentDateTime >= TimeData){
-          console.log("a")
-          // await updateGlobalState(true);
-          
-          
-          setCommentBoxShow(true)
-        }
+        updateState()
       }, 60 * 1000);
     
       return ()=>{
