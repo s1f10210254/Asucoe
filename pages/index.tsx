@@ -75,7 +75,7 @@ export default function Home(){
       const updateState = async () => {
         if (currentDateTime >= TimeData) {
             console.log("a");
-            await updateGlobalState(true);
+            await updateGlobalState(true); 
             console.log("b");
 
             setCommentBoxShow(true);
@@ -125,6 +125,8 @@ export default function Home(){
       fetchUser();
       
     },[setUser])
+
+    // console.log(commentBoxShow)
 
   return (
     <div className={styles.container}>
