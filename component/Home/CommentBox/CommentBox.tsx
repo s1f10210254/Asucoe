@@ -205,7 +205,8 @@ export function CommentBox(){
         };
     
         fetchGlobalState();
-    }, [setCount, setCommentBoxShow]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     
 
 
